@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 public class GameBoard extends JFrame {
@@ -12,12 +14,13 @@ public class GameBoard extends JFrame {
     JLabel rubrik = new JLabel("Number Puzzle Game");
    // JButton[][] gameNumber = new JButton[4][4];
 
-
     GameBoard(){
         mainPanel.setLayout(new BorderLayout());
         topPanel.add(rubrik);
         gamePanel.setLayout(new GridLayout(4,4));
         bottomPanel.add(newGameButton);
+
+        createRandomLabels();
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(gamePanel, BorderLayout.CENTER);
@@ -30,37 +33,23 @@ public class GameBoard extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    public static void createRandomLabels(){
-        JLabel[] gameNumber = new JLabel[15];
-        /*
-        for (int i = 0; i < 15; i++) {
-            double number = Math.random()*(15-1)+1;
-            String numberStr = Double.toString(number);
-            int numberInt = Integer.parseInt(numberStr);
-            gameNumber[i] = new JLabel(Integer.toString(numberInt));
-            System.out.println(gameNumber[i].getText());
-        }
+    private JPanel createRandomLabels(){
+            JButton[] array = new JButton[15];
+            for (int i =0; i < 15; i++){
+                String value = Integer.toString(i+1);
+                JButton button55 = new JButton(value);
+                array[i] = button55;
+            }
+            Collections.shuffle(Arrays.asList(array));
 
-         */
-
-        Random random = new Random();
-            for (int i = 0; i < 15; i++) {
-                int index = random.nextInt(15)+1;
-                gameNumber[i] = new JLabel(Integer.toString(index));
-                for (int j = 0; j < i; j++) {
-                if (Integer.parseInt(gameNumber[j].getText()) != index){
-                    gameNumber[i] = new JLabel(Integer.toString(index));
-                } else if (Integer.parseInt(gameNumber[j].getText()) == index){
-
-                }
-                }
-                System.out.println(gameNumber[i].getText());
-        }
+            for (JButton button : array) {
+                gamePanel.add(button);
+            }
+            return gamePanel;
     }
+
 
     public static void main(String[] args) {
         GameBoard playGame = new GameBoard();
-        GameBoard.createRandomLabels();
-
     }
 }
