@@ -12,7 +12,10 @@ public class GameBoard extends JFrame {
     JPanel bottomPanel = new JPanel();
     JButton newGameButton = new JButton("New Game");
     JLabel rubrik = new JLabel("Number Puzzle Game");
-   // JButton[][] gameNumber = new JButton[4][4];
+    //private int row = 4;
+    //private int col = rows;
+    //JButton[] arrayOfRandomNumbersForGameBoard;
+    //JButton[][] gameBoard = new JButton[row][col];
 
     GameBoard(){
         mainPanel.setLayout(new BorderLayout());
@@ -46,6 +49,22 @@ public class GameBoard extends JFrame {
                 gamePanel.add(button);
             }
             return gamePanel;
+
+            //annat alternativ, man skapar alla 16 platser och sedan en annan metod som skapar 2D array av info i denna
+        /*arrayOfRandomNumbersForGameBoard = new JButton[16];
+        for (int i =0; i < 16; i++){
+            String value = Integer.toString(i+1);
+            JButton button = new JButton(value);
+            arrayOfRandomNumbersForGameBoard[i] = button;
+            button.addActionListener(movePanels);
+            if (button.getText().equals("16")){
+                button.setText("");
+                button.setBackground(Color.white);
+            }
+        }
+        Collections.shuffle(Arrays.asList(arrayOfRandomNumbersForGameBoard));
+
+        return array;*/
     }
 
 
