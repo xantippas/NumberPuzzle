@@ -44,7 +44,7 @@ public class GameBoard extends JFrame {
         setSize(420,420);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        
+
     }
 
     private JButton[] createRandomLabels(){
