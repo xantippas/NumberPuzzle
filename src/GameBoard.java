@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
@@ -21,6 +23,8 @@ public class GameBoard extends JFrame {
 
     JButton[] arrayOfRandomNumbersForGameBoard;
     JButton[][] puzzlePieces;
+
+    JButton clickedButton = new JButton();
 
     GameBoard(){
         mainPanel.setLayout(new BorderLayout());
@@ -48,7 +52,7 @@ public class GameBoard extends JFrame {
         for (int i =0; i < 15; i++){
             String value = Integer.toString(i+1);
             button = new JButton(value);
-            //button.addActionListener(ADDACTION);
+            button.addActionListener(namn);
             arrayOfRandomNumbersForGameBoard[i] = button;
         }
         emptyPlayPiece.setBackground(Color.white);
@@ -80,6 +84,19 @@ public class GameBoard extends JFrame {
         }
         return gamePanel;
     }
+
+
+    ActionListener namn = new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            for (JButton button: arrayOfRandomNumbersForGameBoard) {
+                    if (e.getSource() == button){
+                        clickedButton = button;
+                    }
+            }
+        }
+    };
+
 
 
     public static void main(String[] args) {
