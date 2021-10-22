@@ -26,6 +26,7 @@ public class GameBoard extends JFrame {
 
     JButton clickedButton = new JButton();
 
+
     GameBoard(){
         mainPanel.setLayout(new BorderLayout());
         topPanel.add(rubrik);
@@ -52,7 +53,7 @@ public class GameBoard extends JFrame {
         for (int i =0; i < 15; i++){
             String value = Integer.toString(i+1);
             button = new JButton(value);
-            button.addActionListener(namn);
+            button.addActionListener(al);
             arrayOfRandomNumbersForGameBoard[i] = button;
         }
         emptyPlayPiece.setBackground(Color.white);
@@ -85,8 +86,7 @@ public class GameBoard extends JFrame {
         return gamePanel;
     }
 
-
-    ActionListener namn = new ActionListener(){
+    ActionListener al = new ActionListener(){
         @Override
         public void actionPerformed(ActionEvent e) {
             for (JButton button: arrayOfRandomNumbersForGameBoard) {
@@ -96,6 +96,23 @@ public class GameBoard extends JFrame {
             }
         }
     };
+
+    private int[] findButtonInArray(JButton button){
+        int[] buttonPosition = new int[2];
+        for (int i = 0; i < puzzlePieces.length; i++) {
+            for (int j = 0; j < puzzlePieces[i].length; j++) {
+                if (puzzlePieces[i][j] == button){
+                    buttonPosition[0] = i;
+                    buttonPosition[1] = j;
+                }
+            }
+        }
+        return buttonPosition;
+    }
+
+    int[] clickedButtonPosition = findButtonInArray(clickedButton);
+    int[] emptyButtonPosition = findButtonInArray(emptyPlayPiece);
+
 
 
 
