@@ -26,6 +26,14 @@ public class GameBoard extends JFrame {
 
     JButton clickedButton = new JButton();
 
+    private int[] clickedButtonPosition = new int[2];
+    private int[] emptyButtonPosition = new int[2];
+    int clickedButtonRow;
+    int clickedButtonColumn;
+    int emptyButtonRow;
+    int emptyButtonColumn;
+
+    boolean slidePossible;
 
     GameBoard(){
         mainPanel.setLayout(new BorderLayout());
@@ -34,7 +42,11 @@ public class GameBoard extends JFrame {
         bottomPanel.add(newGameButton);
 
         createRandomLabels();
+        create2DArray();
         createGameBoard();
+        findEmptyButtonInArray();
+        checkIfSlideIsPossible();
+
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(gamePanel, BorderLayout.CENTER);
@@ -92,26 +104,54 @@ public class GameBoard extends JFrame {
             for (JButton button: arrayOfRandomNumbersForGameBoard) {
                     if (e.getSource() == button){
                         clickedButton = button;
+                        findButtonInArray(clickedButton);
+                        System.out.println(clickedButtonColumn + " " + clickedButtonRow);
                     }
+            }
+            if(e.getSource() == clickedButton){
+                findButtonInArray(clickedButton);
             }
         }
     };
 
-    private int[] findButtonInArray(JButton button){
-        int[] buttonPosition = new int[2];
+    private void findEmptyButtonInArray(){
         for (int i = 0; i < puzzlePieces.length; i++) {
             for (int j = 0; j < puzzlePieces[i].length; j++) {
-                if (puzzlePieces[i][j] == button){
-                    buttonPosition[0] = i;
-                    buttonPosition[1] = j;
+                if (puzzlePieces[i][j] == emptyPlayPiece){
+                    emptyButtonRow = i;
+                    emptyButtonColumn = j;
                 }
             }
         }
-        return buttonPosition;
     }
 
-    int[] clickedButtonPosition = findButtonInArray(clickedButton);
-    int[] emptyButtonPosition = findButtonInArray(emptyPlayPiece);
+    private void findButtonInArray(JButton button){
+        for (int i = 0; i < puzzlePieces.length; i++) {
+            for (int j = 0; j < puzzlePieces[i].length; j++) {
+                if (puzzlePieces[i][j] == button){
+                    clickedButtonRow = i;
+                    clickedButtonColumn = j;
+                }
+            }
+        }
+    }
+
+
+    private void checkIfSlideIsPossible(){
+            if (clickedButtonRow == emptyButtonRow || clickedButtonColumn == emptyButtonColumn) {
+                System.out.println("De är nära varandra");
+                if (clickedButtonColumn == emptyButtonColumn + 1 ||
+                        clickedButtonColumn == emptyButtonColumn - 1 || clickedButtonRow == emptyButtonRow + 1 ||
+                        clickedButtonRow == emptyButtonRow - 1) {
+                    slidePossible = true;
+                    System.out.println("True");
+                }
+            } else {
+                slidePossible = false;
+                System.out.println("False");
+            }
+
+    }
 
 
 
