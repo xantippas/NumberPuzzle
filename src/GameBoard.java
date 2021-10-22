@@ -12,9 +12,11 @@ public class GameBoard extends JFrame {
     JPanel bottomPanel = new JPanel();
     JButton newGameButton = new JButton("New Game");
     JLabel rubrik = new JLabel("Number Puzzle Game");
+    JButton button;
+    JButton emptyPlayPiece = new JButton("");
     //private int row = 4;
     //private int col = rows;
-    //JButton[] arrayOfRandomNumbersForGameBoard;
+    JButton[] arrayOfRandomNumbersForGameBoard;
     //JButton[][] gameBoard = new JButton[row][col];
 
     GameBoard(){
@@ -36,35 +38,19 @@ public class GameBoard extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    private JPanel createRandomLabels(){
-            JButton[] array = new JButton[15];
-            for (int i =0; i < 15; i++){
-                String value = Integer.toString(i+1);
-                JButton button55 = new JButton(value);
-                array[i] = button55;
-            }
-            Collections.shuffle(Arrays.asList(array));
-
-            for (JButton button : array) {
-                gamePanel.add(button);
-            }
-            return gamePanel;
-
-            //annat alternativ, man skapar alla 16 platser och sedan en annan metod som skapar 2D array av info i denna
-        /*arrayOfRandomNumbersForGameBoard = new JButton[16];
-        for (int i =0; i < 16; i++){
+    private JButton[] createRandomLabels(){
+        arrayOfRandomNumbersForGameBoard = new JButton[16];
+        for (int i =0; i < 15; i++){
             String value = Integer.toString(i+1);
-            JButton button = new JButton(value);
+            button = new JButton(value);
+            //button.addActionListener(ADDACTION);
             arrayOfRandomNumbersForGameBoard[i] = button;
-            button.addActionListener(movePanels);
-            if (button.getText().equals("16")){
-                button.setText("");
-                button.setBackground(Color.white);
-            }
         }
+        emptyPlayPiece.setBackground(Color.white);
+        arrayOfRandomNumbersForGameBoard[15] = emptyPlayPiece;
         Collections.shuffle(Arrays.asList(arrayOfRandomNumbersForGameBoard));
 
-        return array;*/
+        return arrayOfRandomNumbersForGameBoard;
     }
 
 
