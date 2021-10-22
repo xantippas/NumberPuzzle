@@ -12,12 +12,15 @@ public class GameBoard extends JFrame {
     JPanel bottomPanel = new JPanel();
     JButton newGameButton = new JButton("New Game");
     JLabel rubrik = new JLabel("Number Puzzle Game");
+
     JButton button;
     JButton emptyPlayPiece = new JButton("");
-    //private int row = 4;
-    //private int col = rows;
+
+    private int row = 4;
+    private int col = row;
+
     JButton[] arrayOfRandomNumbersForGameBoard;
-    //JButton[][] gameBoard = new JButton[row][col];
+    JButton[][] puzzlePieces;
 
     GameBoard(){
         mainPanel.setLayout(new BorderLayout());
@@ -26,6 +29,7 @@ public class GameBoard extends JFrame {
         bottomPanel.add(newGameButton);
 
         createRandomLabels();
+        createGameBoard();
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(gamePanel, BorderLayout.CENTER);
@@ -51,6 +55,29 @@ public class GameBoard extends JFrame {
         Collections.shuffle(Arrays.asList(arrayOfRandomNumbersForGameBoard));
 
         return arrayOfRandomNumbersForGameBoard;
+    }
+
+    private JButton[][] create2DArray(){
+        puzzlePieces = new JButton[row][col];
+        for (int a = 0; a < arrayOfRandomNumbersForGameBoard.length; a++) {
+            for (int i = 0; i < puzzlePieces.length; i++) {
+                for (int j = 0; j < puzzlePieces[i].length; j++) {
+                    puzzlePieces[i][j] = arrayOfRandomNumbersForGameBoard[a];
+                    a++;
+                }
+            }
+        }
+        return puzzlePieces;
+    }
+
+    private JPanel createGameBoard(){
+        create2DArray();
+        for (JButton[] puzzlePiece : puzzlePieces) {
+            for (int i = 0; i < puzzlePiece.length; i++) {
+                gamePanel.add(puzzlePiece[i]);
+            }
+        }
+        return gamePanel;
     }
 
 
