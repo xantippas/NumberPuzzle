@@ -93,7 +93,7 @@ public class GameBoard extends JFrame {
         for (int i = 0; i < 15; i++) {
             String value = Integer.toString(i + 1);
             button = new JButton(value);
-            button.addActionListener(al);
+            //button.addActionListener(al);
             arrayOfRandomNumbersForGameBoard[i] = button;
         }
         emptyPlayPiece.setBackground(Color.white);
@@ -120,6 +120,7 @@ public class GameBoard extends JFrame {
         create2DArray();
         for (JButton[] puzzlePiece : puzzlePieces) {
             for (int i = 0; i < puzzlePiece.length; i++) {
+                puzzlePiece[i].addActionListener(al);
                 gamePanel.add(puzzlePiece[i]);
             }
         }
