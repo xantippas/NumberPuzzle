@@ -17,14 +17,13 @@ public class GameBoard extends JFrame {
 
     JButton button;
     JButton emptyPlayPiece = new JButton("");
+    JButton clickedButton = new JButton();
 
     private int row = 4;
     private int col = row;
 
     JButton[] arrayOfRandomNumbersForGameBoard;
     JButton[][] puzzlePieces;
-
-    JButton clickedButton = new JButton();
 
     int clickedButtonRow;
     int clickedButtonColumn;
@@ -35,6 +34,7 @@ public class GameBoard extends JFrame {
 
     boolean gameComplete = false;
 
+
     GameBoard() {
         mainPanel.setLayout(new BorderLayout());
         topPanel.add(rubrik);
@@ -42,10 +42,10 @@ public class GameBoard extends JFrame {
         newGameButton.addActionListener(newGameListener);
         bottomPanel.add(newGameButton);
 
-        createRandomLabels();
+        createRandomLabelsForGamePieces();
         createGameBoard();
 
-        //testGame();
+        //winningGameDemo();
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(gamePanel, BorderLayout.CENTER);
@@ -56,7 +56,6 @@ public class GameBoard extends JFrame {
         setSize(420, 420);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
     }
 
     ActionListener al = new ActionListener() {
@@ -68,34 +67,8 @@ public class GameBoard extends JFrame {
                     findButtonInArray();
                     findEmptyButtonInArray();
                     checkIfSlideIsPossible();
-
                     if(slidePossible){
-                        gamePanel.remove(emptyPlayPiece);
-                        gamePanel.remove(clickedButton);
-                        gamePanel.revalidate();
-                        repaint();
-
-                        int indexOfEmptyButton = (emptyButtonRow * 4) + emptyButtonColumn;
-                        int indexOfClickedButton = (clickedButtonRow * 4) + clickedButtonColumn;
-
-                        for (int i =0; i < puzzlePieces.length; i++){
-                            for (int j =0; j < puzzlePieces[i].length; j++){
-                                if (emptyButtonRow == i && emptyButtonColumn == j){
-                                    gamePanel.add(clickedButton, indexOfEmptyButton);
-                                    gamePanel.revalidate();
-                                    gamePanel.repaint();
-                                    puzzlePieces[i][j] = clickedButton;
-                                }
-                                if (clickedButtonRow == i && clickedButtonColumn==j){
-                                    gamePanel.add(emptyPlayPiece, indexOfClickedButton);
-                                    gamePanel.revalidate();
-                                    gamePanel.repaint();
-                                    puzzlePieces[i][j] = emptyPlayPiece;
-
-                                }
-                            }
-                        }
-                        slidePossible = false;
+                        swapButtons();
                         checkIfGameComplete();
                         if (gameComplete){
                             JOptionPane.showMessageDialog(null, "Du vann!");
@@ -109,14 +82,14 @@ public class GameBoard extends JFrame {
     ActionListener newGameListener = e -> {
         if (e.getSource()==newGameButton){
             gamePanel.removeAll();
-            createRandomLabels();
+            createRandomLabelsForGamePieces();
             createGameBoard();
             gamePanel.revalidate();
         }
     };
 
 
-    private JButton[] createRandomLabels() {
+    private JButton[] createRandomLabelsForGamePieces() {
         arrayOfRandomNumbersForGameBoard = new JButton[16];
         for (int i = 0; i < 15; i++) {
             String value = Integer.toString(i + 1);
@@ -130,7 +103,7 @@ public class GameBoard extends JFrame {
         return arrayOfRandomNumbersForGameBoard;
     }
 
-    private JButton[][] create2DArray() {
+    private JButton[][] create2DArrayFromJButtonArray() {
         puzzlePieces = new JButton[row][col];
         for (int a = 0; a < arrayOfRandomNumbersForGameBoard.length; a++) {
             for (int i = 0; i < puzzlePieces.length; i++) {
@@ -144,7 +117,7 @@ public class GameBoard extends JFrame {
     }
 
     private JPanel createGameBoard() {
-        create2DArray();
+        create2DArrayFromJButtonArray();
         for (JButton[] puzzlePiece : puzzlePieces) {
             for (int i = 0; i < puzzlePiece.length; i++) {
                 puzzlePiece[i].addActionListener(al);
@@ -156,52 +129,75 @@ public class GameBoard extends JFrame {
     }
 
 
-    private void findEmptyButtonInArray() {
+    public void findEmptyButtonInArray() {
         for (int i = 0; i < puzzlePieces.length; i++) {
             for (int j = 0; j < puzzlePieces[i].length; j++) {
                 if (puzzlePieces[i][j] == emptyPlayPiece) {
                     emptyButtonRow = i;
                     emptyButtonColumn = j;
-                    System.out.println(i + " " +j);
-                  //  Component emptyComponent = gamePanel.getComponentAt(emptyPlayPiece.getLocation());
                 }
             }
         }
     }
 
-    private void findButtonInArray() {
+    public void findButtonInArray() {
         for (int i = 0; i < puzzlePieces.length; i++) {
             for (int j = 0; j < puzzlePieces[i].length; j++) {
                 if (puzzlePieces[i][j] == clickedButton) {
                     clickedButtonRow = i;
                     clickedButtonColumn = j;
-                    System.out.println(i + " " +j);
                 }
             }
         }
     }
 
 
-    private void checkIfSlideIsPossible() {
+    public void checkIfSlideIsPossible() {
         if (clickedButtonRow == emptyButtonRow) {
             if (clickedButtonColumn == emptyButtonColumn + 1 || clickedButtonColumn == emptyButtonColumn - 1) {
-                System.out.println("Buttons should be swapped1");
                 slidePossible = true;
             }
         } else if (clickedButtonColumn == emptyButtonColumn) {
             if (clickedButtonRow == emptyButtonRow + 1 ||
                     clickedButtonRow == emptyButtonRow - 1) {
                 slidePossible = true;
-                System.out.println("Buttons should be swapped2");
             }
         } else {
-            System.out.println("cant be swapped");
             slidePossible = false;
         }
 
     }
 
-    private void checkIfGameComplete() {
+    private void swapButtons(){
+        gamePanel.remove(emptyPlayPiece);
+        gamePanel.remove(clickedButton);
+        gamePanel.revalidate();
+        repaint();
+
+        int indexOfEmptyButton = (emptyButtonRow * 4) + emptyButtonColumn;
+        int indexOfClickedButton = (clickedButtonRow * 4) + clickedButtonColumn;
+
+        for (int i =0; i < puzzlePieces.length; i++){
+            for (int j =0; j < puzzlePieces[i].length; j++){
+                if (emptyButtonRow == i && emptyButtonColumn == j){
+                    gamePanel.add(clickedButton, indexOfEmptyButton);
+                    gamePanel.revalidate();
+                    gamePanel.repaint();
+                    puzzlePieces[i][j] = clickedButton;
+                }
+                if (clickedButtonRow == i && clickedButtonColumn==j){
+                    gamePanel.add(emptyPlayPiece, indexOfClickedButton);
+                    gamePanel.revalidate();
+                    gamePanel.repaint();
+                    puzzlePieces[i][j] = emptyPlayPiece;
+
+                }
+            }
+        }
+        slidePossible = false;
+    }
+
+    public void checkIfGameComplete() {
         int[] gameButtonsOrder = new int[16];
         int counter = 0;
         for (JButton[] buttons : puzzlePieces) {
@@ -215,8 +211,7 @@ public class GameBoard extends JFrame {
                 }
             }
         }
-
-            for (int i = 1; i < gameButtonsOrder.length; i++){
+        for (int i = 1; i < gameButtonsOrder.length; i++){
             {
                 if (gameButtonsOrder[i - 1] > gameButtonsOrder[i])
                 {
@@ -229,7 +224,7 @@ public class GameBoard extends JFrame {
     }
 
 
-    private void testGame(){
+    private void winningGameDemo(){
         arrayOfRandomNumbersForGameBoard = new JButton[16];
         for (int i = 0; i < 15; i++) {
             String value = Integer.toString(i + 1);
@@ -240,7 +235,7 @@ public class GameBoard extends JFrame {
         arrayOfRandomNumbersForGameBoard[15] = arrayOfRandomNumbersForGameBoard[14];
         arrayOfRandomNumbersForGameBoard[14] = emptyPlayPiece;
 
-        create2DArray();
+        create2DArrayFromJButtonArray();
         createGameBoard();
     }
 
