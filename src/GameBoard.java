@@ -251,10 +251,13 @@ public class GameBoard extends JFrame {
             }
         }
         for (int i = 0; i < gameButtonsOrder.length - 1; i++) {
-            if (gameButtonsOrder[i] > gameButtonsOrder[i + 1])
+            if (gameButtonsOrder[i] > gameButtonsOrder[i + 1]){
                 gameComplete = false;
+            } else {
+                gameComplete = true;
+            }
         }
-        gameComplete = true;
+
     }
 
 
