@@ -42,10 +42,9 @@ public class GameBoard extends JFrame {
         newGameButton.addActionListener(newGameListener);
         bottomPanel.add(newGameButton);
 
-        createRandomLabelsForGamePieces();
-        createGameBoard();
-
-        //winningGameDemo();
+       createRandomLabelsForGamePieces();
+       createGameBoard();
+       //winningGameDemo();
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(gamePanel, BorderLayout.CENTER);
@@ -71,7 +70,7 @@ public class GameBoard extends JFrame {
                         swapButtons();
                         checkIfGameComplete();
                         if (gameComplete){
-                            JOptionPane.showMessageDialog(null, "Du vann!");
+                            JOptionPane.showMessageDialog(null, "Grattis! Du har vunnit!");
                         }
                     }
                 }
@@ -100,6 +99,10 @@ public class GameBoard extends JFrame {
         arrayOfRandomNumbersForGameBoard[15] = emptyPlayPiece;
         Collections.shuffle(Arrays.asList(arrayOfRandomNumbersForGameBoard));
 
+        if (!isSolvableBoard()){
+            createRandomLabelsForGamePieces();
+        }
+
         return arrayOfRandomNumbersForGameBoard;
     }
 
@@ -115,6 +118,23 @@ public class GameBoard extends JFrame {
         }
         return puzzlePieces;
     }
+    //https://ssaurel.medium.com/developing-a-15-puzzle-game-of-fifteen-in-java-dfe1359cc6e3
+    public boolean isSolvableBoard(){
+        int[] checkIfSolvableArray = new int[16];
+        for (int i =0; i < arrayOfRandomNumbersForGameBoard.length; i++){
+            if (!arrayOfRandomNumbersForGameBoard[i].getText().equals("")){
+                checkIfSolvableArray[i] = Integer.parseInt(arrayOfRandomNumbersForGameBoard[i].getText());
+            }
+        }
+        int countInversions = 0;
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < i; j++) {
+                if (checkIfSolvableArray[j] > checkIfSolvableArray[i])
+                    countInversions++;
+            }
+        }
+        return countInversions % 2 == 0;
+    }
 
     private JPanel createGameBoard() {
         create2DArrayFromJButtonArray();
@@ -127,7 +147,6 @@ public class GameBoard extends JFrame {
         gameComplete = false;
         return gamePanel;
     }
-
 
     public void findEmptyButtonInArray() {
         for (int i = 0; i < puzzlePieces.length; i++) {
@@ -165,7 +184,6 @@ public class GameBoard extends JFrame {
         } else {
             slidePossible = false;
         }
-
     }
 
     private void swapButtons(){
@@ -198,22 +216,22 @@ public class GameBoard extends JFrame {
     }
 
     public void checkIfGameComplete() {
-        int[] gameButtonsOrder = new int[16];
+        int[] testingOrderOfGamePieces = new int[16];
         int counter = 0;
         for (JButton[] buttons : puzzlePieces) {
             for (JButton button : buttons) {
                 if (!button.getText().equals("")) {
-                    gameButtonsOrder[counter] = Integer.parseInt(button.getText());
+                    testingOrderOfGamePieces[counter] = Integer.parseInt(button.getText());
                     counter++;
                 } else if (button.getText().equals("")){
-                    gameButtonsOrder[counter] = 17;
+                    testingOrderOfGamePieces[counter] = 17;
                     counter++;
                 }
             }
         }
-        for (int i = 1; i < gameButtonsOrder.length; i++){
+        for (int i = 1; i < testingOrderOfGamePieces.length; i++){
             {
-                if (gameButtonsOrder[i - 1] > gameButtonsOrder[i])
+                if (testingOrderOfGamePieces[i - 1] > testingOrderOfGamePieces[i])
                 {
                     gameComplete = false;
                     break;
@@ -238,7 +256,6 @@ public class GameBoard extends JFrame {
         create2DArrayFromJButtonArray();
         createGameBoard();
     }
-
 
     public static void main(String[] args) {
         GameBoard playGame = new GameBoard();
