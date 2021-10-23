@@ -71,6 +71,46 @@ public class GameBoard extends JFrame {
                     findButtonInArray();
                     findEmptyButtonInArray();
                     checkIfSlideIsPossible();
+
+                    if(slidePossible){
+                        gamePanel.remove(emptyPlayPiece);
+                        gamePanel.remove(clickedButton);
+                        gamePanel.revalidate();
+                        repaint();
+                        /*puzzlePieces[emptyButtonRow][emptyButtonColumn] = clickedButton;
+                        puzzlePieces[clickedButtonRow][clickedButtonRow] = emptyPlayPiece;*/
+
+                        int indexOfEmptyButton = (emptyButtonRow * 4) + emptyButtonColumn;
+                        int indexOfClickedButton = (clickedButtonRow * 4) + clickedButtonColumn;
+
+                        for (int i =0; i < puzzlePieces.length; i++){
+                            for (int j =0; j < puzzlePieces[i].length; j++){
+                                if (emptyButtonRow == i && emptyButtonColumn == j){
+                                    gamePanel.add(clickedButton, indexOfEmptyButton);
+                                    gamePanel.revalidate();
+                                    gamePanel.repaint();
+                                    //puzzlePieces[emptyButtonRow][emptyButtonColumn] = clickedButton;
+                                }
+                                if (clickedButtonRow == i && clickedButtonColumn==j){
+                                    gamePanel.add(emptyPlayPiece, indexOfClickedButton);
+                                    gamePanel.revalidate();
+                                    gamePanel.repaint();
+                                    //puzzlePieces[clickedButtonRow][clickedButtonRow] = emptyPlayPiece;
+
+                                }
+                            }
+                        }
+                        //gamePanel.add(emptyPlayPiece);
+                        //gamePanel.add(clickedButton);
+
+                        gamePanel.revalidate();
+                        gamePanel.repaint();
+
+                        /*findButtonInArray();
+                        findEmptyButtonInArray();
+                        checkIfSlideIsPossible();*/
+
+                    }
                 }
             }
         }
@@ -156,19 +196,22 @@ public class GameBoard extends JFrame {
 
 
     private void checkIfSlideIsPossible() {
-        System.out.println("Buttons should be swapped3");
+        //System.out.println("Buttons should be swapped3");
         if (clickedButtonRow == emptyButtonRow) {
             if (clickedButtonColumn == emptyButtonColumn + 1 || clickedButtonColumn == emptyButtonColumn - 1) {
                 System.out.println("Buttons should be swapped1");
-                swapButtons();
+                slidePossible = true;
+                //swapButtons();
             }
         } else if (clickedButtonColumn == emptyButtonColumn) {
             if (clickedButtonRow == emptyButtonRow + 1 ||
                     clickedButtonRow == emptyButtonRow - 1) {
+                slidePossible = true;
                 System.out.println("Buttons should be swapped2");
-                swapButtons();
+                //swapButtons();
             }
         } else {
+            System.out.println("cant be swapped");
             slidePossible = false;
         }
 
@@ -186,10 +229,11 @@ public class GameBoard extends JFrame {
 
 
          */
+        //gamePanel.remove(clickedButton);
 
+        /*puzzlePieces[emptyButtonRow][emptyButtonColumn] = clickedButton;
+        puzzlePieces[clickedButtonRow][clickedButtonRow] = emptyPlayPiece;*/
 
-            //int tempRow = emptyButtonRow;
-            //int tempColumn = emptyButtonColumn;
            /* puzzlePieces[emptyButtonRow][emptyButtonColumn] = clickedButton;
             puzzlePieces[clickedButtonRow][clickedButtonRow] = emptyPlayPiece;
             gamePanel.revalidate(); */
