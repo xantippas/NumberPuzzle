@@ -33,23 +33,19 @@ public class GameBoard extends JFrame {
 
     boolean slidePossible;
 
-    int[] gameButtonsOrder;
-
     boolean gameComplete = false;
 
     GameBoard() {
         mainPanel.setLayout(new BorderLayout());
         topPanel.add(rubrik);
         gamePanel.setLayout(new GridLayout(4, 4));
+        newGameButton.addActionListener(newGameListener);
         bottomPanel.add(newGameButton);
 
-        //createRandomLabels();
-        //createGameBoard();
-        //findEmptyButtonInArray();
-       // findButtonInArray();
-       // checkIfSlideIsPossible();
+        createRandomLabels();
+        createGameBoard();
 
-        testGame();
+        //testGame();
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(gamePanel, BorderLayout.CENTER);
@@ -99,24 +95,29 @@ public class GameBoard extends JFrame {
                                 }
                             }
                         }
+                        slidePossible = false;
                         checkIfGameComplete();
+                        if (gameComplete){
+                            JOptionPane.showMessageDialog(null, "Du vann!");
+                        }
                     }
                 }
             }
         }
     };
 
-    private void gamePlay() {
-        createRandomLabels();
-        createGameBoard();
-        while (!gameComplete) {
-            findEmptyButtonInArray();
-            checkIfSlideIsPossible();
-            //swapButtons();
+    ActionListener newGameListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource()==newGameButton){
+                gamePanel.removeAll();
+                createRandomLabels();
+                createGameBoard();
+                gamePanel.revalidate();
+            }
         }
+    };
 
-        JOptionPane.showMessageDialog(null, "Du vann!");
-    }
 
     private JButton[] createRandomLabels() {
         arrayOfRandomNumbersForGameBoard = new JButton[16];
@@ -185,19 +186,16 @@ public class GameBoard extends JFrame {
 
 
     private void checkIfSlideIsPossible() {
-        //System.out.println("Buttons should be swapped3");
         if (clickedButtonRow == emptyButtonRow) {
             if (clickedButtonColumn == emptyButtonColumn + 1 || clickedButtonColumn == emptyButtonColumn - 1) {
                 System.out.println("Buttons should be swapped1");
                 slidePossible = true;
-                //swapButtons();
             }
         } else if (clickedButtonColumn == emptyButtonColumn) {
             if (clickedButtonRow == emptyButtonRow + 1 ||
                     clickedButtonRow == emptyButtonRow - 1) {
                 slidePossible = true;
                 System.out.println("Buttons should be swapped2");
-                //swapButtons();
             }
         } else {
             System.out.println("cant be swapped");
@@ -207,7 +205,7 @@ public class GameBoard extends JFrame {
     }
 
     private void checkIfGameComplete() {
-        gameButtonsOrder = new int[16];
+        int[] gameButtonsOrder = new int[16];
         int counter = 0;
         for (JButton[] buttons : puzzlePieces) {
             for (JButton button : buttons) {
@@ -220,17 +218,16 @@ public class GameBoard extends JFrame {
                 }
             }
         }
+
             for (int i = 1; i < gameButtonsOrder.length; i++){
             {
                 if (gameButtonsOrder[i - 1] > gameButtonsOrder[i])
                 {
                     gameComplete = false;
-                    System.out.println("not win");
                     break;
                 }
             }
             gameComplete = true;
-                System.out.println("win");
         }
     }
 
