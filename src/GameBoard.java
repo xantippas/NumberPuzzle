@@ -106,15 +106,12 @@ public class GameBoard extends JFrame {
         }
     };
 
-    ActionListener newGameListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (e.getSource()==newGameButton){
-                gamePanel.removeAll();
-                createRandomLabels();
-                createGameBoard();
-                gamePanel.revalidate();
-            }
+    ActionListener newGameListener = e -> {
+        if (e.getSource()==newGameButton){
+            gamePanel.removeAll();
+            createRandomLabels();
+            createGameBoard();
+            gamePanel.revalidate();
         }
     };
 
