@@ -235,7 +235,6 @@ public class GameBoard extends JFrame {
     }
 
 
-
     private void testGame(){
         arrayOfRandomNumbersForGameBoard = new JButton[16];
         for (int i = 0; i < 15; i++) {
