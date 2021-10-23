@@ -33,10 +33,9 @@ public class GameBoard extends JFrame {
 
     boolean slidePossible;
 
-    int[] gameButtonsOrder = new int[14];
+    int[] gameButtonsOrder;
 
-    boolean gameComplete = true;
-
+    boolean gameComplete = false;
 
     GameBoard() {
         mainPanel.setLayout(new BorderLayout());
@@ -44,11 +43,13 @@ public class GameBoard extends JFrame {
         gamePanel.setLayout(new GridLayout(4, 4));
         bottomPanel.add(newGameButton);
 
-        createRandomLabels();
-        createGameBoard();
+        //createRandomLabels();
+        //createGameBoard();
         //findEmptyButtonInArray();
        // findButtonInArray();
        // checkIfSlideIsPossible();
+
+        testGame();
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(gamePanel, BorderLayout.CENTER);
@@ -77,8 +78,6 @@ public class GameBoard extends JFrame {
                         gamePanel.remove(clickedButton);
                         gamePanel.revalidate();
                         repaint();
-                        /*puzzlePieces[emptyButtonRow][emptyButtonColumn] = clickedButton;
-                        puzzlePieces[clickedButtonRow][clickedButtonRow] = emptyPlayPiece;*/
 
                         int indexOfEmptyButton = (emptyButtonRow * 4) + emptyButtonColumn;
                         int indexOfClickedButton = (clickedButtonRow * 4) + clickedButtonColumn;
@@ -100,16 +99,7 @@ public class GameBoard extends JFrame {
                                 }
                             }
                         }
-                        //gamePanel.add(emptyPlayPiece);
-                        //gamePanel.add(clickedButton);
-
-                        //gamePanel.revalidate();
-                        //gamePanel.repaint();
-
-                        /*findButtonInArray();
-                        findEmptyButtonInArray();
-                        checkIfSlideIsPossible();*/
-
+                        checkIfGameComplete();
                     }
                 }
             }
@@ -133,7 +123,6 @@ public class GameBoard extends JFrame {
         for (int i = 0; i < 15; i++) {
             String value = Integer.toString(i + 1);
             button = new JButton(value);
-            //button.addActionListener(al);
             arrayOfRandomNumbersForGameBoard[i] = button;
         }
         emptyPlayPiece.setBackground(Color.white);
@@ -217,47 +206,47 @@ public class GameBoard extends JFrame {
 
     }
 
-    private void swapButtons() {
-        /*
-            System.out.println("Buttons should be swapped");
-            emptyPlayPiece.setText(clickedButton.getText());
-            emptyPlayPiece.setBackground(clickedButton.getBackground());
-            clickedButton.setText("");
-            clickedButton.setBackground(Color.white);
-            gamePanel.revalidate();
-            gamePanel.repaint();
-
-
-         */
-        //gamePanel.remove(clickedButton);
-
-        /*puzzlePieces[emptyButtonRow][emptyButtonColumn] = clickedButton;
-        puzzlePieces[clickedButtonRow][clickedButtonRow] = emptyPlayPiece;*/
-
-           /* puzzlePieces[emptyButtonRow][emptyButtonColumn] = clickedButton;
-            puzzlePieces[clickedButtonRow][clickedButtonRow] = emptyPlayPiece;
-            gamePanel.revalidate(); */
-
-    }
-
     private void checkIfGameComplete() {
+        gameButtonsOrder = new int[16];
         int counter = 0;
         for (JButton[] buttons : puzzlePieces) {
             for (JButton button : buttons) {
                 if (!button.getText().equals("")) {
                     gameButtonsOrder[counter] = Integer.parseInt(button.getText());
                     counter++;
+                } else if (button.getText().equals("")){
+                    gameButtonsOrder[counter] = 17;
+                    counter++;
                 }
             }
         }
-        for (int i = 0; i < gameButtonsOrder.length - 1; i++) {
-            if (gameButtonsOrder[i] > gameButtonsOrder[i + 1]){
-                gameComplete = false;
-            } else {
-                gameComplete = true;
+            for (int i = 1; i < gameButtonsOrder.length; i++){
+            {
+                if (gameButtonsOrder[i - 1] > gameButtonsOrder[i])
+                {
+                    gameComplete = false;
+                    System.out.println("not win");
+                    break;
+                }
             }
+            gameComplete = true;
+                System.out.println("win");
         }
+    }
 
+    private void testGame(){
+        arrayOfRandomNumbersForGameBoard = new JButton[16];
+        for (int i = 0; i < 15; i++) {
+            String value = Integer.toString(i + 1);
+            button = new JButton(value);
+            arrayOfRandomNumbersForGameBoard[i] = button;
+        }
+        emptyPlayPiece.setBackground(Color.white);
+        arrayOfRandomNumbersForGameBoard[15] = arrayOfRandomNumbersForGameBoard[14];
+        arrayOfRandomNumbersForGameBoard[14] = emptyPlayPiece;
+
+        create2DArray();
+        createGameBoard();
     }
 
 
