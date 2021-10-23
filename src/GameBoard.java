@@ -42,9 +42,9 @@ public class GameBoard extends JFrame {
         newGameButton.addActionListener(newGameListener);
         bottomPanel.add(newGameButton);
 
-       createRandomLabelsForGamePieces();
-       createGameBoard();
-       //winningGameDemo();
+       //createRandomLabelsForGamePieces();
+       //createGameBoard();
+       winningGameDemo();
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(gamePanel, BorderLayout.CENTER);
@@ -70,7 +70,7 @@ public class GameBoard extends JFrame {
                         swapButtons();
                         checkIfGameComplete();
                         if (gameComplete){
-                            JOptionPane.showMessageDialog(null, "Grattis! Du har vunnit!");
+                            JOptionPane.showMessageDialog(null, "Grattis! Du har vunnit!","Winner", JOptionPane.PLAIN_MESSAGE);
                         }
                     }
                 }
