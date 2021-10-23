@@ -106,18 +106,6 @@ public class GameBoard extends JFrame {
         return arrayOfRandomNumbersForGameBoard;
     }
 
-    private JButton[][] create2DArrayFromJButtonArray() {
-        puzzlePieces = new JButton[row][col];
-        for (int a = 0; a < arrayOfRandomNumbersForGameBoard.length; a++) {
-            for (int i = 0; i < puzzlePieces.length; i++) {
-                for (int j = 0; j < puzzlePieces[i].length; j++) {
-                    puzzlePieces[i][j] = arrayOfRandomNumbersForGameBoard[a];
-                    a++;
-                }
-            }
-        }
-        return puzzlePieces;
-    }
     //https://ssaurel.medium.com/developing-a-15-puzzle-game-of-fifteen-in-java-dfe1359cc6e3
     public boolean isSolvableBoard(){
         int[] checkIfSolvableArray = new int[16];
@@ -134,6 +122,19 @@ public class GameBoard extends JFrame {
             }
         }
         return countInversions % 2 == 0;
+    }
+
+    private JButton[][] create2DArrayFromJButtonArray() {
+        puzzlePieces = new JButton[row][col];
+        for (int a = 0; a < arrayOfRandomNumbersForGameBoard.length; a++) {
+            for (int i = 0; i < puzzlePieces.length; i++) {
+                for (int j = 0; j < puzzlePieces[i].length; j++) {
+                    puzzlePieces[i][j] = arrayOfRandomNumbersForGameBoard[a];
+                    a++;
+                }
+            }
+        }
+        return puzzlePieces;
     }
 
     private JPanel createGameBoard() {
