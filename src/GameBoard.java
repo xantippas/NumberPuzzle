@@ -89,13 +89,13 @@ public class GameBoard extends JFrame {
                                     gamePanel.add(clickedButton, indexOfEmptyButton);
                                     gamePanel.revalidate();
                                     gamePanel.repaint();
-                                    //puzzlePieces[emptyButtonRow][emptyButtonColumn] = clickedButton;
+                                    puzzlePieces[i][j] = clickedButton;
                                 }
                                 if (clickedButtonRow == i && clickedButtonColumn==j){
                                     gamePanel.add(emptyPlayPiece, indexOfClickedButton);
                                     gamePanel.revalidate();
                                     gamePanel.repaint();
-                                    //puzzlePieces[clickedButtonRow][clickedButtonRow] = emptyPlayPiece;
+                                    puzzlePieces[i][j] = emptyPlayPiece;
 
                                 }
                             }
@@ -103,8 +103,8 @@ public class GameBoard extends JFrame {
                         //gamePanel.add(emptyPlayPiece);
                         //gamePanel.add(clickedButton);
 
-                        gamePanel.revalidate();
-                        gamePanel.repaint();
+                        //gamePanel.revalidate();
+                        //gamePanel.repaint();
 
                         /*findButtonInArray();
                         findEmptyButtonInArray();
