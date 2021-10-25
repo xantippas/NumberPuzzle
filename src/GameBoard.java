@@ -227,7 +227,7 @@ public class GameBoard extends JFrame {
         }
         slidePossible = false;
     }
-
+    
     public void checkIfGameComplete() {
         int[] testingOrderOfGamePieces = new int[16];
         int counter = 0;
@@ -265,7 +265,7 @@ public class GameBoard extends JFrame {
             button = new JButton(value);
             arrayOfRandomNumbersForGameBoard[i] = button;
         }
-        
+
         emptyPlayPiece.setBackground(Color.white);
         arrayOfRandomNumbersForGameBoard[15] = arrayOfRandomNumbersForGameBoard[14];
         arrayOfRandomNumbersForGameBoard[14] = emptyPlayPiece;
