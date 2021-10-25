@@ -42,9 +42,9 @@ public class GameBoard extends JFrame {
         newGameButton.addActionListener(newGameListener);
         bottomPanel.add(newGameButton);
 
-       //createRandomLabelsForGamePieces();
-       //createGameBoard();
-       winningGameDemo();
+        createRandomLabelsForGamePieces();
+        createGameBoard();
+        //winningGameDemo();
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(gamePanel, BorderLayout.CENTER);
@@ -66,13 +66,17 @@ public class GameBoard extends JFrame {
                     findButtonInArray();
                     findEmptyButtonInArray();
                     checkIfSlideIsPossible();
+
                     if(slidePossible){
                         swapButtons();
                         checkIfGameComplete();
+
                         if (gameComplete){
                             JOptionPane.showMessageDialog(null, "Grattis! Du har vunnit!","Winner", JOptionPane.PLAIN_MESSAGE);
                         }
+
                     }
+
                 }
             }
         }
@@ -95,6 +99,7 @@ public class GameBoard extends JFrame {
             button = new JButton(value);
             arrayOfRandomNumbersForGameBoard[i] = button;
         }
+
         emptyPlayPiece.setBackground(Color.white);
         arrayOfRandomNumbersForGameBoard[15] = emptyPlayPiece;
         Collections.shuffle(Arrays.asList(arrayOfRandomNumbersForGameBoard));
@@ -109,11 +114,13 @@ public class GameBoard extends JFrame {
     //https://ssaurel.medium.com/developing-a-15-puzzle-game-of-fifteen-in-java-dfe1359cc6e3
     public boolean isSolvableBoard(){
         int[] checkIfSolvableArray = new int[16];
+
         for (int i =0; i < arrayOfRandomNumbersForGameBoard.length; i++){
             if (!arrayOfRandomNumbersForGameBoard[i].getText().equals("")){
                 checkIfSolvableArray[i] = Integer.parseInt(arrayOfRandomNumbersForGameBoard[i].getText());
             }
         }
+
         int countInversions = 0;
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < i; j++) {
@@ -121,11 +128,13 @@ public class GameBoard extends JFrame {
                     countInversions++;
             }
         }
+
         return countInversions % 2 == 0;
     }
 
     private JButton[][] create2DArrayFromJButtonArray() {
         puzzlePieces = new JButton[row][col];
+
         for (int a = 0; a < arrayOfRandomNumbersForGameBoard.length; a++) {
             for (int i = 0; i < puzzlePieces.length; i++) {
                 for (int j = 0; j < puzzlePieces[i].length; j++) {
@@ -134,11 +143,13 @@ public class GameBoard extends JFrame {
                 }
             }
         }
+
         return puzzlePieces;
     }
 
     private JPanel createGameBoard() {
         create2DArrayFromJButtonArray();
+
         for (JButton[] puzzlePiece : puzzlePieces) {
             for (int i = 0; i < puzzlePiece.length; i++) {
                 puzzlePiece[i].addActionListener(al);
@@ -146,6 +157,7 @@ public class GameBoard extends JFrame {
             }
         }
         gameComplete = false;
+
         return gamePanel;
     }
 
@@ -219,6 +231,7 @@ public class GameBoard extends JFrame {
     public void checkIfGameComplete() {
         int[] testingOrderOfGamePieces = new int[16];
         int counter = 0;
+
         for (JButton[] buttons : puzzlePieces) {
             for (JButton button : buttons) {
                 if (!button.getText().equals("")) {
@@ -230,6 +243,7 @@ public class GameBoard extends JFrame {
                 }
             }
         }
+
         for (int i = 1; i < testingOrderOfGamePieces.length; i++){
             {
                 if (testingOrderOfGamePieces[i - 1] > testingOrderOfGamePieces[i])
@@ -240,6 +254,7 @@ public class GameBoard extends JFrame {
             }
             gameComplete = true;
         }
+
     }
 
 
@@ -250,6 +265,7 @@ public class GameBoard extends JFrame {
             button = new JButton(value);
             arrayOfRandomNumbersForGameBoard[i] = button;
         }
+        
         emptyPlayPiece.setBackground(Color.white);
         arrayOfRandomNumbersForGameBoard[15] = arrayOfRandomNumbersForGameBoard[14];
         arrayOfRandomNumbersForGameBoard[14] = emptyPlayPiece;
