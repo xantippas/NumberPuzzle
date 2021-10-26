@@ -40,7 +40,7 @@ public class GameBoard extends JFrame {
         newGameButton.addActionListener(newGameListener);
         bottomPanel.add(newGameButton);
 
-        createArrayOfShuffledJButtonGamePieces();
+        createShuffledArrayOfJButtonGamePieces();
         createGameBoard();
         //winningGameDemo();
 
@@ -55,42 +55,7 @@ public class GameBoard extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    ActionListener al = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            for (JButton button : arrayOfRandomNumbersForGameBoard) {
-                if (e.getSource() == button) {
-                    clickedButton = button;
-                    findClickedButtonInArray();
-                    findEmptyButtonInArray();
-                    checkIfSwapIsPossible();
-
-                    if(swapPossible){
-                        swapButtons();
-                        checkIfGameComplete();
-
-                        if (gameComplete){
-                            JOptionPane.showMessageDialog(null, "Grattis! Du har vunnit!","Winner", JOptionPane.PLAIN_MESSAGE);
-                        }
-
-                    }
-
-                }
-            }
-        }
-    };
-
-    ActionListener newGameListener = e -> {
-        if (e.getSource()==newGameButton){
-            gamePanel.removeAll();
-            createArrayOfShuffledJButtonGamePieces();
-            createGameBoard();
-            gamePanel.revalidate();
-        }
-    };
-
-
-    private JButton[] createArrayOfShuffledJButtonGamePieces() {
+    private JButton[] createShuffledArrayOfJButtonGamePieces() {
         arrayOfRandomNumbersForGameBoard = new JButton[16];
         for (int i = 0; i < 15; i++) {
             String value = Integer.toString(i + 1);
@@ -103,7 +68,7 @@ public class GameBoard extends JFrame {
         Collections.shuffle(Arrays.asList(arrayOfRandomNumbersForGameBoard));
 
         if (!isSolvableBoard()){
-            createArrayOfShuffledJButtonGamePieces();
+            createShuffledArrayOfJButtonGamePieces();
         }
 
         return arrayOfRandomNumbersForGameBoard;
@@ -159,6 +124,40 @@ public class GameBoard extends JFrame {
         return gamePanel;
     }
 
+    ActionListener al = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            for (JButton button : arrayOfRandomNumbersForGameBoard) {
+                if (e.getSource() == button) {
+                    clickedButton = button;
+                    findClickedButtonInArray();
+                    findEmptyButtonInArray();
+                    checkIfSwapIsPossible();
+
+                    if(swapPossible){
+                        swapButtons();
+                        checkIfGameComplete();
+
+                        if (gameComplete){
+                            JOptionPane.showMessageDialog(null, "Grattis! Du har vunnit!","Winner", JOptionPane.PLAIN_MESSAGE);
+                        }
+
+                    }
+
+                }
+            }
+        }
+    };
+
+    ActionListener newGameListener = e -> {
+        if (e.getSource()==newGameButton){
+            gamePanel.removeAll();
+            createShuffledArrayOfJButtonGamePieces();
+            createGameBoard();
+            gamePanel.revalidate();
+        }
+    };
+
     public void findEmptyButtonInArray() {
         for (int i = 0; i < gamePieces.length; i++) {
             for (int j = 0; j < gamePieces[i].length; j++) {
@@ -180,7 +179,6 @@ public class GameBoard extends JFrame {
             }
         }
     }
-
 
     public void checkIfSwapIsPossible() {
         if (clickedButtonRow == emptyButtonRow) {
