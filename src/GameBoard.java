@@ -40,7 +40,7 @@ public class GameBoard extends JFrame {
         newGameButton.addActionListener(newGameListener);
         bottomPanel.add(newGameButton);
 
-        createShuffledArrayOfJButtons();
+        //createShuffledArrayOfJButtons();
         //createGameBoard();
         winningGameDemo();
 
