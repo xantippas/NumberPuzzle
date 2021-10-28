@@ -40,9 +40,9 @@ public class GameBoard extends JFrame {
         newGameButton.addActionListener(newGameListener);
         bottomPanel.add(newGameButton);
 
-        createShuffledArrayOfJButtonGamePieces();
-        createGameBoard();
-        //winningGameDemo();
+        createShuffledArrayOfJButtons();
+        //createGameBoard();
+        winningGameDemo();
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(gamePanel, BorderLayout.CENTER);
@@ -55,7 +55,7 @@ public class GameBoard extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    private JButton[] createShuffledArrayOfJButtonGamePieces() {
+    private JButton[] createShuffledArrayOfJButtons() {
         arrayOfRandomNumbersForGameBoard = new JButton[16];
         for (int i = 0; i < 15; i++) {
             String value = Integer.toString(i + 1);
@@ -68,7 +68,7 @@ public class GameBoard extends JFrame {
         Collections.shuffle(Arrays.asList(arrayOfRandomNumbersForGameBoard));
 
         if (!isSolvableBoard()){
-            createShuffledArrayOfJButtonGamePieces();
+            createShuffledArrayOfJButtons();
         }
 
         return arrayOfRandomNumbersForGameBoard;
@@ -152,7 +152,7 @@ public class GameBoard extends JFrame {
     ActionListener newGameListener = e -> {
         if (e.getSource()==newGameButton){
             gamePanel.removeAll();
-            createShuffledArrayOfJButtonGamePieces();
+            createShuffledArrayOfJButtons();
             createGameBoard();
             gamePanel.revalidate();
         }
@@ -233,7 +233,7 @@ public class GameBoard extends JFrame {
                     testingOrderOfGamePieces[counter] = Integer.parseInt(button.getText());
                     counter++;
                 } else if (button.getText().equals("")){
-                    testingOrderOfGamePieces[counter] = 17;
+                    testingOrderOfGamePieces[counter] = 16;
                     counter++;
                 }
             }
