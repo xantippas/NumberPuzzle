@@ -12,14 +12,14 @@ public class GameBoard extends JFrame {
     JPanel gamePanel = new JPanel();
     JPanel bottomPanel = new JPanel();
     JButton newGameButton = new JButton("New Game");
-    JLabel rubrik = new JLabel("Number Puzzle Game");
+    JLabel title = new JLabel("Number Puzzle Game");
 
     JButton button;
     JButton emptyPlayPiece = new JButton("");
     JButton clickedButton = new JButton();
 
-    private int row = 4;
-    private int col = row;
+    int row = 4;
+    int col = row;
 
     JButton[] arrayOfRandomNumbersForGameBoard;
     JButton[][] gamePieces;
@@ -35,7 +35,7 @@ public class GameBoard extends JFrame {
 
     GameBoard() {
         mainPanel.setLayout(new BorderLayout());
-        topPanel.add(rubrik);
+        topPanel.add(title);
         gamePanel.setLayout(new GridLayout(4, 4));
         newGameButton.addActionListener(newGameListener);
         bottomPanel.add(newGameButton);
